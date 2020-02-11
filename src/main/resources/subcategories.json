@@ -1,0 +1,52 @@
+[
+  {
+    "id": 1,
+    "code": "appartments",
+    "name": "Appartments"
+  },
+  {
+    "id": 2,
+    "code": "villas",
+    "name": "Villas and Luxury homes"
+  },
+  {
+    "id": 3,
+    "code": "rooms",
+    "name": "Rooms"
+  },
+  {
+    "id": 4,
+    "code": "commercial",
+    "name": "Commercial property"
+  },
+  {
+    "id": 5,
+    "code": "houses",
+    "name": "Houses"
+  },
+  {
+    "id": 6,
+    "code": "land",
+    "name": "Land"
+  },
+  {
+    "id": 7,
+    "code": "farms",
+    "name": "Farms"
+  },
+  {
+    "id": 8,
+    "code": "offices",
+    "name": "Offices"
+  },
+  {
+    "id": 9,
+    "code": "other-properties",
+    "name": "Other properties"
+  },
+  {
+    "id": 10,
+    "code": "riads",
+    "name": "Riads"
+  }
+]
