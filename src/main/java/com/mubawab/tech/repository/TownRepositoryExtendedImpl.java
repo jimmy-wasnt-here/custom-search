@@ -5,7 +5,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 
-public class TownRepositoryImpl implements TownRepositoryExtended {
+public class TownRepositoryExtendedImpl implements TownRepositoryExtended {
 
 	private Logger logger = LoggerFactory.getLogger(this.getClass());
 

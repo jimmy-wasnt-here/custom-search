@@ -5,7 +5,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 
-public class SubcategoryRepositoryImpl implements SubcategoryRepositoryExtended {
+public class SubcategoryRepositoryExtendedImpl implements SubcategoryRepositoryExtended {
 
 	private Logger logger = LoggerFactory.getLogger(this.getClass());
 
