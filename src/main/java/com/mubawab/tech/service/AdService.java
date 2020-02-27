@@ -7,6 +7,8 @@ import com.mubawab.tech.domain.City;
 import com.mubawab.tech.domain.Town;
 import com.mubawab.tech.dto.AdDto;
 import com.mubawab.tech.repository.*;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -32,6 +34,8 @@ public class AdService {
 	private CategoryRepository categoryRepository;
 	@Autowired
 	private SubcategoryRepository subcategoryRepository;
+
+	private Logger log = LoggerFactory.getLogger(this.getClass());
 
 	public Iterable<Ad> loadData() {
 		List<Ad> jsonAds = DataLoader.loadDataList(sourceFile, new TypeToken<Collection<Ad>>() {}.getType());
@@ -75,6 +79,11 @@ public class AdService {
 
 		boolean townAndCityMatch = validateTownAndCityMatch(city, town);
 
+		if (paramsAreInvalid(subcategory, category, city, town)){
+			log.info("No valid parameter found in query");
+			return Collections.emptyList();
+		}
+
 		if (townAndCityMatch){
 			Iterable<Ad> ads = adRepository.findAll();
 			Iterator<Ad> it = ads.iterator();
@@ -94,6 +103,10 @@ public class AdService {
 							ad.getQualityScore()))
 					.collect(Collectors.toList());
 		} else return Collections.emptyList();
+	}
+
+	private boolean paramsAreInvalid(String subcategory, String category, City city, Town town) {
+		return subcategory == null && category == null && city == null && town == null;
 	}
 
 	public boolean validateTownAndCityMatch(City city, Town town) {
