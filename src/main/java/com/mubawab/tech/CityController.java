@@ -41,7 +41,7 @@ public class CityController {
 	@GetMapping(value = {"/ads", "/ads/{searchText}"})
 	public List<AdDto> findAds(@PathVariable(value = "searchText", required = false) Optional<String> searchText) {
 		logger.info("Petition received: {}",  searchText);
-		if (searchText.isPresent()){
+		if (searchText.isPresent() && searchText.get().length() > 0){
 			String params = searchText.get().toLowerCase();
 			String[] paramsToSearch = params.split(" ");
 			return adsService.findByParams(paramsToSearch);
