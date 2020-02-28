@@ -66,16 +66,15 @@ public class AdService {
 		String[] externalParams = deleteParam(params, null);
 
 		String subcategory = subcategoryRepository.getSubcategoryIfFound(externalParams);
-		if (subcategory != null) deleteParam(externalParams, subcategory);
+		if (subcategory != null) externalParams = deleteParam(externalParams, subcategory);
 
 		String category = categoryRepository.getCategoryIfFound(externalParams);
-		if (category != null) deleteParam(externalParams, category);
+		if (category != null) externalParams = deleteParam(externalParams, category);
 
 		City city = cityRepository.getCityIfFound(externalParams);
-		if (city != null) deleteParam(externalParams, city.getName());
+		if (city != null) externalParams = deleteParam(externalParams, city.getName());
 
 		Town town = townRepository.getTownIfFound(externalParams);
-		if (town != null) deleteParam(externalParams, town.getName());
 
 		boolean townAndCityMatch = validateTownAndCityMatch(city, town);
 
