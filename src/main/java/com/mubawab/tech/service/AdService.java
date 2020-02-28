@@ -80,7 +80,7 @@ public class AdService {
 		boolean townAndCityMatch = validateTownAndCityMatch(city, town);
 
 		if (paramsAreInvalid(subcategory, category, city, town)){
-			log.info("No valid parameter found in query");
+			log.info("No valid parameter found in the query");
 			return Collections.emptyList();
 		}
 
@@ -109,7 +109,7 @@ public class AdService {
 		return subcategory == null && category == null && city == null && town == null;
 	}
 
-	public boolean validateTownAndCityMatch(City city, Town town) {
+	private boolean validateTownAndCityMatch(City city, Town town) {
 		if (city == null || town == null) {
 			return true;
 		} else {
