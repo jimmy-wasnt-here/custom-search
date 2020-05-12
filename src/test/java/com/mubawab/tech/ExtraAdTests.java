@@ -2,6 +2,7 @@ package com.mubawab.tech;
 
 
 import com.mubawab.tech.dto.AdDto;
+import com.mubawab.tech.service.AdService;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;

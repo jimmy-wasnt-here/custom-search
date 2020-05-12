@@ -62,6 +62,66 @@ public class AdService {
 				.collect(Collectors.toList());
 	}
 
+	/*
+	* 1 clean params
+	* 2 find params
+	* 3 validate response is possible
+	* 4 validate relation town-city is coherent
+	* 5 obtain collection of valid ads
+	* 6 return expected collection
+	*
+	* */
+
+	public List<AdDto> findByParamsRefactored(String[] params){
+		String[] externalParams = deleteParam(params, null);
+		String[] subcategories = obtainSubcategories(externalParams);
+		externalParams = cleanFoundParameters(externalParams, subcategories);
+		String[] categories = obtainCategories(externalParams);
+		externalParams = cleanFoundParameters(externalParams, categories);
+		String[] towns = obtainTowns(externalParams);
+		externalParams = cleanFoundParameters(externalParams, towns);
+		String[] cities = obtainCities(externalParams);
+
+		boolean townAndCityRelationValid = validateTownAndCityRelation();
+
+		if (paramsCollectionsAreInvalid(subcategories, categories, towns, cities)){
+			log.info("No valid parameter found in the query");
+			return Collections.emptyList();
+		}
+
+		if (townAndCityRelationValid){
+			Iterable<Ad> ads = adRepository.findAll();
+			Iterator<Ad> it = ads.iterator();
+			for (ads.iterator(); it.hasNext(); ) {
+				Ad ad = it.next();
+				if (!matchFound(ad, subcategories, categories, towns, cities))
+					it.remove();
+			}
+			return StreamSupport.stream(ads.spliterator(), false)
+					.map(ad -> new AdDto(
+							ad.getTitle(), ad.getDescription(), ad.getPrice(),
+							ad.getCity().getName(), ad.getTown().getName(),
+							ad.getCategory().getName(), ad.getSubcategory().getName(),
+							ad.getQualityScore()))
+					.collect(Collectors.toList());
+		} else return Collections.emptyList();
+	}
+
+	public String[] cleanFoundParameters(String[] externalParams, String[] foundParameters) {
+		if (foundParameters == null || foundParameters.length == 0){
+			return externalParams;
+		} else {
+			List<String> arrayList = new ArrayList<>(Arrays.asList(externalParams));
+			arrayList.removeIf(item -> {
+				for (String param : foundParameters){
+					if (item.equalsIgnoreCase(param)) return true;
+				}
+				return false;
+			});
+			return arrayList.toArray(new String[arrayList.size()]);
+		}
+	}
+
 	public List<AdDto> findByParams(String[] params) {
 		String[] externalParams = deleteParam(params, null);
 
@@ -106,6 +166,10 @@ public class AdService {
 
 	private boolean paramsAreInvalid(String subcategory, String category, City city, Town town) {
 		return subcategory == null && category == null && city == null && town == null;
+	}
+
+	private boolean paramsCollectionsAreInvalid(String[] subcategory, String[] category, String[] city, String[] town) {
+		return subcategory.length == 0 && category.length == 0 && city.length == 0 && town.length == 0;
 	}
 
 	private boolean validateTownAndCityMatch(City city, Town town) {
